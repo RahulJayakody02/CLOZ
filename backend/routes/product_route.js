@@ -1,8 +1,5 @@
-import express from "express";
-import Product from "../models/product_model.js"; 
-
-
-const router = express.Router();
+const router=require("express").Router();
+let Product =require( "../models/product_model.js" );
 
 
 router.post("/add", async (req, res) => {
@@ -159,5 +156,5 @@ router.get("/:productId", async (req, res) => {
 });
 
 
-export default router;
+module.exports =router;
 
