@@ -120,10 +120,10 @@ const updateProduct = async (req, res) => {
         };
 
         const update = await Product.findOneAndUpdate({ productId: productId }, updateProduct, { new: true });
-        if (updatedProduct.quantityInStock <= updatedProduct.lowStockThreshold) {
+        if (update.quantityInStock <= update.lowStockThreshold) {
             global.io.emit("lowStockNotification", {
-                message: `Low stock alert for product ${updatedProduct.name} (ID: ${updatedProduct.productId}). Current stock: ${updatedProduct.quantityInStock}.`,
-                product: updatedProduct,
+                message: `Low stock alert for product ${update.name} (ID: ${update.productId}). Current stock: ${update.quantityInStock}.`,
+                product: update,
             });
         }
         res.json({ status: "product updated", product: update });

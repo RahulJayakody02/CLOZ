@@ -30,7 +30,7 @@ connection.once("open",()=>{
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:8070", 
+        origin: "http://localhost:5173", 
         methods: ["GET", "POST"],
     },
 });
@@ -50,6 +50,6 @@ const product=require("./routes/product_route.js");
 
 app.use("/products",product)
 
-app.listen(PORT,()=>{
-    console.log(`Server is up and running on port ${PORT}`)
-})
+server.listen(PORT, () => {
+    console.log(`Server is up and running on port ${PORT}`);
+});
