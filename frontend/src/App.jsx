@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { io } from "socket.io-client";
 import axios from "axios";
 import ProductList from "./components/ProductList";
@@ -7,14 +7,24 @@ import AddProductForm from "./components/AddProductForm";
 import UpdateProductForm from "./components/UpdateProductForm";
 import NotificationBell from "./components/Productnotification";
 import Sidebar from "./components/MainDashoardSideBar";
+import ProductFilter from "./components/ProductFilter";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./components/MainDashboard";
 
 const App = () => {
   const [products, setProducts] = useState([]);
-  const [notifications, setNotifications] = useState([]); // State to hold notifications
+  const [notifications, setNotifications] = useState(() => {
+    //  Load notifications from localStorage when app starts
+    const savedNotifications = localStorage.getItem("notifications");
+    return savedNotifications ? JSON.parse(savedNotifications) : [];
+  });
 
-  // Fetch products from the backend
+  //  Save notifications to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+  }, [notifications]);
+
+  // Fetch products from backend
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8070/products/");
@@ -30,18 +40,17 @@ const App = () => {
 
   // Connect to Socket.IO server
   useEffect(() => {
-    const socket = io("http://localhost:8070"); // Replace with your backend URL
+    const socket = io("http://localhost:8070");
 
     // Listen for low stock notifications
     socket.on("lowStockNotification", (data) => {
-      // Add the new notification to the notifications state
       setNotifications((prevNotifications) => [
         ...prevNotifications,
         { id: Date.now(), message: data.message, seen: false },
       ]);
     });
 
-    // Clean up on unmount
+    // Cleanup on component unmount
     return () => {
       socket.disconnect();
     };
@@ -59,7 +68,7 @@ const App = () => {
   return (
     <Router>
       <div className="d-flex">
-        <Sidebar /> 
+        <Sidebar />
         <div className="flex-grow-1 p-4">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
@@ -67,12 +76,12 @@ const App = () => {
               path="/products/"
               element={
                 <div className="container mt-4">
-                 
                   {/* Notification Bell */}
                   <NotificationBell
                     notifications={notifications}
                     markNotificationAsSeen={markNotificationAsSeen}
                   />
+                  <ProductFilter/>
                   <ProductList products={products} fetchProducts={fetchProducts} />
                 </div>
               }

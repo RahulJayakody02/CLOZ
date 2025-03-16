@@ -26,10 +26,19 @@ const AddProductForm = ({ fetchProducts }) => {
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    let updatedValue = value;
+
+    // Remove numbers from the color field
+    if (name === "color") {
+      updatedValue = value.replace(/[0-9]/g, ""); // Remove all numeric characters
+    }
+
     setProduct((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: updatedValue,
     }));
+
     // Clear the error for the field when it changes
     setErrors((prev) => ({
       ...prev,
@@ -49,8 +58,11 @@ const AddProductForm = ({ fetchProducts }) => {
     if (!product.color) newErrors.color = "Color is required";
     if (!product.material) newErrors.material = "Material is required";
     if (!product.gender) newErrors.gender = "Gender is required";
-    if (product.quantityInStock <= 0)
+    if (Number(product.quantityInStock) <= 0) {
       newErrors.quantityInStock = "Stock must be greater than 0";
+    } else if (!Number.isInteger(Number(product.quantityInStock))) {
+      newErrors.quantityInStock = "Invalid stock quantity";
+    }
     if (!product.supplier) newErrors.supplier = "Supplier is required";
     if (product.price <= 0)
       newErrors.price = "Price must be greater than 0";
@@ -66,8 +78,8 @@ const AddProductForm = ({ fetchProducts }) => {
       try {
         await axios.post("http://localhost:8070/products/add", product);
         toast.success("Product added successfully!");
-        fetchProducts(); // Refresh the product list
-        navigate("/products/"); // Redirect to the product list
+        fetchProducts(); 
+        navigate("/products/"); 
       } catch (error) {
         console.error("Error adding product:", error);
         toast.error("Failed to add product");

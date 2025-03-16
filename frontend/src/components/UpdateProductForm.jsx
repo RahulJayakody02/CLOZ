@@ -7,7 +7,7 @@ const UpdateProductForm = ({ fetchProducts }) => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({
-    productId:"",
+    productId: "",
     name: "",
     description: "",
     category: "",
@@ -19,8 +19,6 @@ const UpdateProductForm = ({ fetchProducts }) => {
     quantityInStock: 0,
     supplier: "",
     price: 0,
-    discountPrice: 0,
-    //images: [],
   });
 
   const [errors, setErrors] = useState({});
@@ -45,17 +43,25 @@ const UpdateProductForm = ({ fetchProducts }) => {
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    let updatedValue = value;
+
+    // Remove numbers from the color field
+    if (name === "color") {
+      updatedValue = value.replace(/[0-9]/g, ""); 
+    }
+
     setProduct((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: updatedValue,
     }));
+
     // Clear the error for the field when it changes
     setErrors((prev) => ({
       ...prev,
       [name]: "",
     }));
   };
-
   // Validate form fields
   const validateForm = () => {
     const newErrors = {};
@@ -67,15 +73,14 @@ const UpdateProductForm = ({ fetchProducts }) => {
     if (!product.color) newErrors.color = "Color is required";
     if (!product.material) newErrors.material = "Material is required";
     if (!product.gender) newErrors.gender = "Gender is required";
-    if (product.quantityInStock <= 0)
+    if (Number(product.quantityInStock) <= 0) {
       newErrors.quantityInStock = "Stock must be greater than 0";
+    } else if (!Number.isInteger(Number(product.quantityInStock))) {
+      newErrors.quantityInStock = "Invalid stock quantity";
+    }
     if (!product.supplier) newErrors.supplier = "Supplier is required";
-    if (product.price <= 0)
+    if (Number(product.price) <= 0)
       newErrors.price = "Price must be greater than 0";
-    if (product.discountPrice < 0)
-      newErrors.discountPrice = "Discount price cannot be negative";
-    if (product.discountPrice > product.price)
-      newErrors.discountPrice = "Discount price cannot be greater than the original price";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -91,8 +96,8 @@ const UpdateProductForm = ({ fetchProducts }) => {
           product
         );
         toast.success("Product updated successfully!");
-        fetchProducts(); // Refresh the product list
-        navigate("/products"); // Redirect to the product list
+        fetchProducts(); 
+        navigate("/products"); 
       } catch (error) {
         console.error("Error updating product:", error);
         toast.error("Failed to update product");
@@ -113,9 +118,6 @@ const UpdateProductForm = ({ fetchProducts }) => {
             className="form-control"
             readOnly
           />
-          {errors.productId && (
-            <div className="invalid-feedback">{errors.productId}</div>
-          )}
         </div>
         <div className="mb-3">
           <label className="form-label">Name:</label>
@@ -268,19 +270,6 @@ const UpdateProductForm = ({ fetchProducts }) => {
           />
           {errors.price && (
             <div className="invalid-feedback">{errors.price}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Discount Price:</label>
-          <input
-            type="number"
-            name="discountPrice"
-            value={product.discountPrice}
-            onChange={handleChange}
-            className={`form-control ${errors.discountPrice ? "is-invalid" : ""}`}
-          />
-          {errors.discountPrice && (
-            <div className="invalid-feedback">{errors.discountPrice}</div>
           )}
         </div>
         <button type="submit" className="btn btn-primary">
