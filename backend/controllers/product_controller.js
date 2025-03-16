@@ -49,7 +49,7 @@ const addProduct = async (req, res) => {
 // Get all products with optional filters
 const getProducts = async (req, res) => {
     try {
-        const { name, category, brand, minPrice, maxPrice, color, size } = req.query;
+        const { name, category, brand, minPrice, maxPrice, size } = req.query;
 
         let filters = {};
 
