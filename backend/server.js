@@ -25,10 +25,10 @@ connection.once("open",()=>{
     console.log("Mongodb connection success!");
 })
 
-const product=require("./routes/product_route.js");
+const supplier=require("./routes/supplier_route");
 
 
-app.use("/products",product)
+app.use("/supplier",supplier)
 
 app.listen(PORT,()=>{
     console.log(`Server is up and running on port ${PORT}`)
