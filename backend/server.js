@@ -27,6 +27,7 @@ connection.once("open",()=>{
     console.log("Mongodb connection success!");
 })
 
+
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
@@ -34,6 +35,9 @@ const io = new Server(server, {
         methods: ["GET", "POST"],
     },
 });
+
+
+
 
 io.on("connection", (socket) => {
     console.log("A client connected:", socket.id);
@@ -44,6 +48,10 @@ io.on("connection", (socket) => {
 });
 
 global.io = io;
+const supplier=require("./routes/supplier_route");
+
+
+app.use("/supplier",supplier)
 
 const product=require("./routes/product_route.js");
 
