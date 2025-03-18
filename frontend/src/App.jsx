@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import RegisterCustomer from "./pages/RegisterCustomer";
-import CustomerList from "./pages/CustomerList";
+import RegisterCustomer from "./Components/RegisterCustomer";
+import CustomerList from "./Components/CustomerList";
 
 function App() {
   return (
