@@ -246,19 +246,6 @@ const UpdateProductForm = ({ fetchProducts }) => {
           )}
         </div>
         <div className="mb-3">
-          <label className="form-label">Supplier:</label>
-          <input
-            type="text"
-            name="supplier"
-            value={product.supplier}
-            onChange={handleChange}
-            className={`form-control ${errors.supplier ? "is-invalid" : ""}`}
-          />
-          {errors.supplier && (
-            <div className="invalid-feedback">{errors.supplier}</div>
-          )}
-        </div>
-        <div className="mb-3">
           <label className="form-label">Price:</label>
           <input
             type="number"

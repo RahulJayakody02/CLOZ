@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 
 const AddProductForm = ({ fetchProducts }) => {
   const navigate = useNavigate();
@@ -21,7 +22,12 @@ const AddProductForm = ({ fetchProducts }) => {
     //images: [],
   });
 
+  const [suppliers, setSuppliers] = useState([]);
   const [errors, setErrors] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
+
+  
+ 
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -46,6 +52,26 @@ const AddProductForm = ({ fetchProducts }) => {
     }));
   };
 
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+        try {
+            const response = await fetch('http://localhost:8070/supplier/');
+            const data = await response.json();
+            setSuppliers(data); // Store the list of suppliers
+        } catch (error) {
+            console.error('Error fetching suppliers:', error);
+        }
+    };
+
+    fetchSuppliers();
+}, []);
+
+
+  // Filter suppliers based on search term
+  const filteredSuppliers = suppliers.filter(supplier =>
+    supplier.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
   // Validate form fields
   const validateForm = () => {
     const newErrors = {};
@@ -53,7 +79,7 @@ const AddProductForm = ({ fetchProducts }) => {
     if (!product.productId) newErrors.productId = "Product ID is required";
     if (!product.name) newErrors.name = "Name is required";
     if (!product.category) newErrors.category = "Category is required";
-    if (!product.brand) newErrors.brand = "Brand is required";
+    //if (!product.brand) newErrors.brand = "Brand is required";
     if (!product.size) newErrors.size = "Size is required";
     if (!product.color) newErrors.color = "Color is required";
     if (!product.material) newErrors.material = "Material is required";
@@ -232,18 +258,35 @@ const AddProductForm = ({ fetchProducts }) => {
           )}
         </div>
         <div className="mb-3">
-          <label className="form-label">Supplier:</label>
-          <input
-            type="text"
-            name="supplier"
-            value={product.supplier}
-            onChange={handleChange}
-            className={`form-control ${errors.supplier ? "is-invalid" : ""}`}
-          />
-          {errors.supplier && (
-            <div className="invalid-feedback">{errors.supplier}</div>
-          )}
+            <label className="form-label">Supplier:</label>
+            
+            {/* Search input */}
+            <input
+                type="text"
+                className="form-control mb-2"
+                placeholder="Search supplier..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+
+            <select
+                name="supplier"
+                value={product.supplier}
+                onChange={handleChange}
+                className={`form-control ${errors.supplier ? "is-invalid" : ""}`}
+            >
+                <option value="">Select Supplier</option>
+                {filteredSuppliers.map(supplier => (
+                    <option key={supplier._id} value={supplier._id}>
+                        {supplier.name} {/* Or any other property of Supplier */}
+                    </option>
+                ))}
+            </select>
+
+            {errors.supplier && <div className="invalid-feedback">{errors.supplier}</div>}
         </div>
+
+
         <div className="mb-3">
           <label className="form-label">Price:</label>
           <input

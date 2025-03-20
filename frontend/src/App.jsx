@@ -8,6 +8,9 @@ import UpdateProductForm from "./components/UpdateProductForm";
 import NotificationBell from "./components/Productnotification";
 import Sidebar from "./components/MainDashoardSideBar";
 import ProductFilter from "./components/ProductFilter";
+import SupplierProfile from "./components/supplierprofile";
+import ViewAllOrders from "./components/SupplierOrder";
+import PlaceOrderForm from "./components/SupplierManualOrder" 
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./components/MainDashboard";
 
@@ -94,6 +97,13 @@ const App = () => {
               path="/products/update/:productId"
               element={<UpdateProductForm fetchProducts={fetchProducts} />}
             />
+      
+            <Route path="/supplier/:supplierId" element={<SupplierProfile />} />
+
+            <Route path="/orders" element={<ViewAllOrders />} />
+            <Route path="/products/order/:productId" element={<PlaceOrderForm />} />
+      
+    
           </Routes>
         </div>
       </div>

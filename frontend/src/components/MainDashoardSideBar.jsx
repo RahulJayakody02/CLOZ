@@ -19,7 +19,7 @@ const Sidebar = () => {
           <Link to="/sales" className="text-decoration-none text-dark">Sales</Link>
         </li>
         <li className="mb-2">
-          <Link to="/supplier" className="text-decoration-none text-dark">Supplier</Link>
+          <Link to="/orders/" className="text-decoration-none text-dark">Supplier</Link>
         </li>
         <li className="mb-2">
           <Link to="/finance" className="text-decoration-none text-dark">Finance</Link>

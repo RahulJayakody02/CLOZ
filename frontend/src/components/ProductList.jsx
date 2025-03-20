@@ -60,6 +60,12 @@ const ProductList = ({ products, fetchProducts }) => {
                 >
                   Delete
                 </button>
+                <Link
+                  to={`/products/order/${product.productId}`}
+                  className="btn btn-success btn-sm me-2"
+                >
+                  Order
+                </Link>
               </td>
             </tr>
           ))}
