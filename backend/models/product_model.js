@@ -42,10 +42,20 @@ const productSchema = new mongoose.Schema({
 
   lowStockThreshold: { 
     type: Number, 
-    default: 5 },
+    default: 10 },
 
+  reOrderLevel:{
+    type:Number,
+    default: 5},
+
+  reOrderquantity:{
+    type:Number,
+    default:100
+  },  
   supplier: { 
-    type: String },
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Supplier',
+    required: true },
 
   price: { 
     type: Number, 

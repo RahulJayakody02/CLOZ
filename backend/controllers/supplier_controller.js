@@ -1,4 +1,4 @@
-const Supplier = require('../models/supplier_model'); // Adjust the path as necessary
+const Supplier = require('../models/supplier_model'); 
 
 // Add new supplier
 const addSupplier = async (req, res) => {
@@ -10,7 +10,7 @@ const addSupplier = async (req, res) => {
       phone,
       address,
       company,
-      password, // Make sure to hash this in production
+      password, 
       status
     } = req.body;
 
@@ -45,4 +45,48 @@ const addSupplier = async (req, res) => {
   }
 };
 
-module.exports = { addSupplier };
+
+
+const getSuppliers = async (req, res) => {
+  try {
+      const suppliers = await Supplier.find();
+      res.json(suppliers);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Failed to fetch suppliers", error: error.message });
+  }
+};
+
+// Backend route to fetch a single supplier by objectid
+const get= async (req, res) => {
+  try {
+    const supplier = await Supplier.findById({
+       _id: req.params.supplierObjectId 
+    });
+    if (!supplier) {
+      return res.status(404).json({ message: "Supplier not found" });
+    }
+    res.status(200).json(supplier);
+  } catch (error) {
+    console.error("Error fetching supplier:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// Backend route to fetch a single supplier by supplierId
+const getSupplier= async (req, res) => {
+  try {
+    const supplier = await Supplier.findOne({
+      supplierId: req.params.supplierId
+    });
+    if (!supplier) {
+      return res.status(404).json({ message: "Supplier not found" });
+    }
+    res.json(supplier);
+  } catch (error) {
+    console.error("Error fetching supplier:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+module.exports = { addSupplier,getSuppliers,get,getSupplier };

@@ -1,4 +1,9 @@
+const mongoose = require('mongoose'); 
 const Product = require("../models/product_model.js");
+const Supplier = require("../models/supplier_model.js");
+const {placeOrder}=require("./supplierOrder_controller.js");
+
+
 
 // Add a new product
 const addProduct = async (req, res) => {
@@ -21,6 +26,15 @@ const addProduct = async (req, res) => {
             images,
         } = req.body;
 
+        if (!mongoose.Types.ObjectId.isValid(supplier)) {
+            return res.status(400).json({ message: 'Invalid supplier ID' });
+          }
+
+          const supplierExists = await Supplier.findById(supplier);
+          if (!supplierExists) {
+              return res.status(404).json({ message: 'Supplier not found' });
+          }
+
         const newProduct = new Product({
             productId,
             name,
@@ -37,7 +51,7 @@ const addProduct = async (req, res) => {
             discountPrice,
             images,
         });
-
+        
         await newProduct.save();
         res.json({ message: "Product Added" });
     } catch (error) {
@@ -124,7 +138,13 @@ const updateProduct = async (req, res) => {
             global.io.emit("lowStockNotification", {
                 message: `Low stock alert for product ${update.name} (ID: ${update.productId}). Current stock: ${update.quantityInStock}.`,
                 product: update,
-            });
+            });    
+        }
+
+        if (update.quantityInStock <= update.reOrderLevel) {
+            
+            await placeOrder(update._id, update.supplier, update.reOrderquantity);
+
         }
         res.json({ status: "product updated", product: update });
     } catch (error) {

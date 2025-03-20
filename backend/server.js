@@ -53,10 +53,19 @@ const supplier=require("./routes/supplier_route");
 
 app.use("/supplier",supplier)
 
-const product=require("./routes/product_route.js");
+const product=require("./routes/product_route");
 
 
 app.use("/products",product)
+
+const orderRoutes = require('./routes/supplierorder_route');
+
+app.use('/order', orderRoutes);
+
+
+
+
+
 
 server.listen(PORT, () => {
     console.log(`Server is up and running on port ${PORT}`);
