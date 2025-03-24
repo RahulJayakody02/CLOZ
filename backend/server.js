@@ -5,6 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
 require("dotenv").config();
+const customerRoutes = require("./routes/customerRoutes");
+const loyaltyRoutes = require("./routes/loyaltyRoutes");
 
 const PORT = process.env.PORT || 8070;
 
@@ -22,8 +24,9 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("Mongodb connection success!");
 });
-const customerRoutes = require("./routes/customerRoutes");
+
 app.use("/api/customers", customerRoutes);
+app.use("/api/loyalty", loyaltyRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is up and running on port ${PORT}`);

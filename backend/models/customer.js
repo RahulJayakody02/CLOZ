@@ -7,11 +7,10 @@ const customerSchema = new mongoose.Schema({
   registrationDate: { type: Date, default: Date.now }, // Auto set current date
   loyaltyPoints: { type: Number, default: 0 }, // Start with 0 loyalty points
   purchaseHistory: [
-    // Track customer purchases
     {
-      productName: { type: String }, // Name of the product
-      purchaseDate: { type: Date, default: Date.now }, // Date of purchase
-      amount: { type: Number }, // Purchase amount
+      productName: { type: String },
+      purchaseDate: { type: Date, default: Date.now },
+      amount: { type: Number },
     },
   ],
 });
