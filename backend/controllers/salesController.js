@@ -1,68 +1,68 @@
-const Sales = require("../models/Sales");
+const Sale = require("../models/Sales");
 
-// Create a new sale entry
+// Create a new sale
 exports.createSale = async (req, res) => {
-    try {
-        const { customerName, product, quantity, price, discount } = req.body;
-        const totalPrice = quantity * price - discount;
-        const sale = new Sales({ customerName, product, quantity, price, discount, totalPrice });
+  try {
+    const { customerName, products, date } = req.body;
+    const totalPrice = products.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-        await sale.save();
-        res.status(201).json({ message: "Sale recorded successfully", sale });
-    } catch (error) {
-        res.status(500).json({ error: "Server error" });
-    }
+    const newSale = new Sale({ customerName, products, totalPrice, date });
+    await newSale.save();
+
+    res.status(201).json(newSale);
+  } catch (error) {
+    res.status(500).json({ error: "Error creating sale" });
+  }
 };
 
 // Get all sales
 exports.getSales = async (req, res) => {
-    try {
-        const sales = await Sales.find();
-        res.json(sales);
-    } catch (error) {
-        res.status(500).json({ error: "Server error" });
-    }
-};
-
-// Get a single sale by ID
-exports.getSaleById = async (req, res) => {
-    try {
-        const sale = await Sales.findById(req.params.id);
-        if (!sale) return res.status(404).json({ error: "Sale not found" });
-        res.json(sale);
-    } catch (error) {
-        res.status(500).json({ error: "Server error" });
-    }
+  try {
+    const sales = await Sale.find();
+    res.status(200).json(sales);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching sales" });
+  }
 };
 
 // Update a sale
 exports.updateSale = async (req, res) => {
-    try {
-        const { customerName, product, quantity, price, discount } = req.body;
-        const totalPrice = quantity * price - discount;
+  try {
+    const { customerName, products, date } = req.body;
+    const totalPrice = products.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-        const sale = await Sales.findByIdAndUpdate(
-            req.params.id,
-            { customerName, product, quantity, price, discount, totalPrice },
-            { new: true }
-        );
+    const updatedSale = await Sale.findByIdAndUpdate(req.params.id, 
+      { customerName, products, totalPrice, date },
+      { new: true }
+    );
 
-        if (!sale) return res.status(404).json({ error: "Sale not found" });
+    if (!updatedSale) return res.status(404).json({ error: "Sale not found" });
 
-        res.json({ message: "Sale updated successfully", sale });
-    } catch (error) {
-        res.status(500).json({ error: "Server error" });
-    }
+    res.status(200).json(updatedSale);
+  } catch (error) {
+    res.status(500).json({ error: "Error updating sale" });
+  }
 };
+
 
 // Delete a sale
 exports.deleteSale = async (req, res) => {
-    try {
-        const sale = await Sales.findByIdAndDelete(req.params.id);
-        if (!sale) return res.status(404).json({ error: "Sale not found" });
+  try {
+    const deletedSale = await Sale.findByIdAndDelete(req.params.id);
+    if (!deletedSale) return res.status(404).json({ error: "Sale not found" });
 
-        res.json({ message: "Sale deleted successfully" });
-    } catch (error) {
-        res.status(500).json({ error: "Server error" });
-    }
+    res.status(200).json({ message: "Sale deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Error deleting sale" });
+  }
 };
+
+exports.getSaleById = async (req, res) => {
+    try {
+      const sale = await Sale.findById(req.params.id);
+      if (!sale) return res.status(404).json({ error: "Sale not found" });
+      res.status(200).json(sale);
+    } catch (error) {
+      res.status(500).json({ error: "Error fetching sale by ID" });
+    }
+  };
