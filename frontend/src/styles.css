@@ -1,0 +1,132 @@
+/* General Styles */
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main Container */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Headings */
+h1 {
+  text-align: center;
+  color: #ffffff;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input, select {
+  width: 80%;
+  background-color: #333;
+  color: white;
+  border: 2px solid #6200ea;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  width: 85%;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  padding: 12px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #3700b3;
+}
+
+/* Sales Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #222;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #6200ea;
+  text-align: left;
+}
+
+th {
+  background-color: #333;
+  color: #ffffff;
+  font-size: 18px;
+}
+
+td {
+  color: #dddddd;
+}
+
+/* Action Buttons */
+.edit-btn, .delete-btn {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px;
+  font-size: 14px;
+}
+
+.edit-btn {
+  background-color: #03dac6;
+  color: #121212;
+}
+
+.delete-btn {
+  background-color: #cf6679;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #018786;
+}
+
+.delete-btn:hover {
+  background-color: #b00020;
+}
+
+/* View Sales Button */
+.view-sales-btn {
+  display: inline-block;
+  background-color: #ff9800;
+  color: white;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+.view-sales-btn:hover {
+  background-color: #e68900;
+}

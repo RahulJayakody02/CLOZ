@@ -1,12 +1,17 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SalesPage from "./pages/SalesPage";
 
-import './App.css'
+import "./styles.css";
 
-function App() {
-
+const App = () => {
   return (
-    <>  
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<SalesPage />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
