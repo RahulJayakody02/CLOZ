@@ -3,10 +3,11 @@ import axios from 'axios';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const ViewAllOrders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 10;
 
     useEffect(() => {
         fetchOrders();
@@ -37,6 +38,13 @@ const ViewAllOrders = () => {
     // Separate orders
     const pendingOrders = orders.filter(order => order.adminStatus === 'Pending');
     const otherOrders = orders.filter(order => order.adminStatus !== 'Pending');
+
+    // Pagination logic
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = otherOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div className="container mt-5">
@@ -125,7 +133,7 @@ const ViewAllOrders = () => {
                         </div>
                     )}
 
-                    {/* All Other Orders Table */}
+                    {/* Reviewed Orders Table */}
                     <h3 className="text-center mb-3" style={{ color: '#555' }}>Reviewed Orders</h3>
                     {otherOrders.length === 0 ? (
                         <p className="text-center text-muted">No orders found.</p>
@@ -144,34 +152,22 @@ const ViewAllOrders = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {otherOrders.map(order => renderOrderRow(order))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </>
-            )}
-        </div>
-    );
-};
-
-// Helper function to render non-pending order rows
-const renderOrderRow = (order) => (
-    <tr key={order._id}>
-        <td>{order._id}</td>
-        <td>{order.product?.name || 'N/A'}</td>
-        <td>{order.supplier?.name || 'N/A'}</td>
-        <td>{order.quantity}</td>
-        <td><span className={`badge ${getStatusClass(order.status)}`}>{order.status}</span></td>
-        <td><span className={`badge ${getStatusClass(order.adminStatus)}`}>{order.adminStatus}</span></td>
-        <td>
-            <button className="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target={`#orderModal${order._id}`}>View</button>
-            <div className="modal fade" id={`orderModal${order._id}`} tabIndex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+                                    {currentOrders.map(order => (
+                                        <tr key={order._id}>
+                                            <td>{order._id}</td>
+                                            <td>{order.product?.name || 'N/A'}</td>
+                                            <td>{order.supplier?.name || 'N/A'}</td>
+                                            <td>{order.quantity}</td>
+                                            <td><span className={`badge ${getStatusClass(order.status)}`}>{order.status}</span></td>
+                                            <td><span className={`badge ${getStatusClass(order.adminStatus)}`}>{order.adminStatus}</span></td>
+                                            <td>
+                                                <button className="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target={`#orderModal${order._id}`}>View</button>
+                                                <div className="modal fade" id={`orderModal${order._id}`} tabIndex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
                                                     <div className="modal-dialog modal-dialog-centered">
                                                         <div className="modal-content">
                                                             <div className="modal-header">
-                                                                <h5 className="modal-title" id="orderModalLabel">Order Details</h5>
-                                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                <h5 className="modal-title">Order Details</h5>
+                                                                <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
                                                             </div>
                                                             <div className="modal-body">
                                                                 <p><strong>Order ID:</strong> {order._id}</p>
@@ -189,9 +185,29 @@ const renderOrderRow = (order) => (
                                                         </div>
                                                     </div>
                                                 </div>
-        </td>
-    </tr>
-);
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <div className="d-flex justify-content-center mt-3">
+                                <nav>
+                                    <ul className="pagination">
+                                        {[...Array(Math.ceil(otherOrders.length / ordersPerPage)).keys()].map(number => (
+                                            <li key={number} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
+                                                <button onClick={() => paginate(number + 1)} className="page-link">{number + 1}</button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    )}
+                </>
+            )}
+        </div>
+    );
+};
 
 const getStatusClass = (status) => {
     switch (status) {

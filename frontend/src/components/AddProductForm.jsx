@@ -18,8 +18,9 @@ const AddProductForm = ({ fetchProducts }) => {
     gender: "",
     quantityInStock: 0,
     supplier: "",
+    supplierUnitPrice: 0,
     price: 0,
-    //images: [],
+    images: [],
   });
 
   const [suppliers, setSuppliers] = useState([]);
@@ -31,7 +32,7 @@ const AddProductForm = ({ fetchProducts }) => {
 
   // Handle form input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value,files } = e.target;
 
     let updatedValue = value;
 
@@ -92,8 +93,10 @@ const AddProductForm = ({ fetchProducts }) => {
     if (!product.supplier) newErrors.supplier = "Supplier is required";
     if (product.price <= 0)
       newErrors.price = "Price must be greater than 0";
-
-    setErrors(newErrors);
+    if (product.supplierUnitPrice <= 0)
+      newErrors.supplierUnitPrice = "Price must be greater than 0";
+    if (product.supplierUnitPrice > product.price)
+      newErrors.supplierUnitPrice = "Supplier unit price must be less than or equal to the product price";    setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
@@ -299,6 +302,21 @@ const AddProductForm = ({ fetchProducts }) => {
           />
           {errors.price && (
             <div className="invalid-feedback">{errors.price}</div>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Supplier Unit Price:</label>
+          <input
+            type="number"
+            name="supplierUnitPrice"
+            value={product.supplierUnitPrice}
+            onChange={handleChange}
+            className={`form-control ${errors.supplierUnitPrice ? "is-invalid" : ""}`}
+            required
+          />
+          {errors.supplierUnitPrice && (
+            <div className="invalid-feedback">{errors.supplierUnitPrice}</div>
           )}
         </div>
         <button type="submit" className="btn btn-primary">

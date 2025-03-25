@@ -18,9 +18,20 @@ const Sidebar = () => {
         <li className="mb-2">
           <Link to="/sales" className="text-decoration-none text-dark">Sales</Link>
         </li>
+
+        {/* Supplier Section with Nested Links */}
         <li className="mb-2">
-          <Link to="/orders/" className="text-decoration-none text-dark">Supplier</Link>
+          <span className="text-dark fw-bold">Supplier</span>
+          <ul className="list-unstyled ps-3">
+            <li className="mb-1">
+              <Link to="/supplier/orders" className="text-decoration-none text-dark">Orders</Link>
+            </li>
+            <li className="mb-1">
+              <Link to="/supplier/profiles" className="text-decoration-none text-dark">Supplier Profiles</Link>
+            </li>
+          </ul>
         </li>
+
         <li className="mb-2">
           <Link to="/finance" className="text-decoration-none text-dark">Finance</Link>
         </li>

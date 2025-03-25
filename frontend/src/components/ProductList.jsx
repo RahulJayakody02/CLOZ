@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "../css/productlist.css";
 
 const ProductList = ({ products, fetchProducts }) => {
   // Delete a product
@@ -10,8 +11,8 @@ const ProductList = ({ products, fetchProducts }) => {
       const isConfirmed = window.confirm("Are you sure you want to delete this product?");
   
       if (!isConfirmed) {
-      return; // If user cancels, exit the function
-  }
+        return; // If user cancels, exit the function
+      }
       await axios.delete(`http://localhost:8070/products/delete/${productId}`);
       toast.success("Product deleted successfully!");
       fetchProducts(); // Refresh the product list
@@ -23,7 +24,7 @@ const ProductList = ({ products, fetchProducts }) => {
 
   return (
     <div>
-       <h1 className="text-center mb-4">Inventory Dashboard</h1>
+      <h1 className="text-center mb-4">Inventory Dashboard</h1>
       <h2 className="mb-4">Product List</h2>
       <Link to="/products/add" className="btn btn-primary mb-4">
         Add New Product
@@ -66,11 +67,45 @@ const ProductList = ({ products, fetchProducts }) => {
                 >
                   Order
                 </Link>
+                <button className="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target={`#orderModal${product._id}`}>
+                  View
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {products.map((product) => (
+        <div className="modal fade" id={`orderModal${product._id}`} tabIndex="-1" aria-labelledby="orderModalLabel" aria-hidden="true" key={product._id}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="orderModalLabel">Product Details</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+              {console.log(product)}
+                <p><strong>Product ID:</strong> {product.productId}</p>
+                <p><strong>Name:</strong> {product.name}</p>
+                <p><strong>Description:</strong> {product.description || "N/A"}</p>
+                <p><strong>Category:</strong> {product.category}</p>
+                <p><strong>Brand:</strong> {product.brand || "N/A"}</p>
+                <p><strong>Size:</strong> {product.size || "N/A"}</p>
+                <p><strong>Material:</strong> {product.material || "N/A"}</p>
+                <p><strong>Color:</strong> {product.color.length > 0 ? product.color.join(", ") : "N/A"}</p>
+                <p><strong>Gender:</strong> {product.gender}</p>
+                <p><strong>Stock Quantity:</strong> {product.quantityInStock}</p>
+                <p><strong>Supplier:</strong> {product.supplier?.name || "N/A"}</p>
+                <p><strong>Price:</strong> Rs{product.price}.00</p>
+                <p><strong>Supplier Unit Price:</strong> Rs.{product.supplierUnitPrice}.00</p>
+                <p><strong>Added Date:</strong> {new Date(product.addedDate).toLocaleDateString()}</p>
+                <p><strong>Last Updated:</strong> {new Date(product.updatedAt).toLocaleDateString()}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

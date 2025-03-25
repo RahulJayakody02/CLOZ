@@ -10,9 +10,12 @@ import Sidebar from "./components/MainDashoardSideBar";
 import ProductFilter from "./components/ProductFilter";
 import SupplierProfile from "./components/supplierprofile";
 import ViewAllOrders from "./components/SupplierOrder";
-import PlaceOrderForm from "./components/SupplierManualOrder" 
+import PlaceOrderForm from "./components/SupplierManualOrder" ;
+import SupplierList from "./components/SupplierList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./components/MainDashboard";
+import AddSupplier from "./components/AddSupplier";
+import EditSupplier from "./components/EditSupplier";
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -99,8 +102,10 @@ const App = () => {
             />
       
             <Route path="/supplier/:supplierId" element={<SupplierProfile />} />
-
-            <Route path="/orders" element={<ViewAllOrders />} />
+            <Route path="/supplier/profiles" element={<SupplierList />} />
+            <Route path="/supplier/add" element={<AddSupplier/>} />
+            <Route path="/supplier/orders" element={<ViewAllOrders />} />
+            <Route path="supplier/update/:supplerId" element={<EditSupplier />} />
             <Route path="/products/order/:productId" element={<PlaceOrderForm />} />
       
     

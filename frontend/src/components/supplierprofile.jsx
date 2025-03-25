@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Card, Container, Spinner, Button } from "react-bootstrap";
+import { Card, Container, Spinner, Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/supplierprofile.css";
 import { toast } from "react-toastify";
@@ -80,6 +80,9 @@ const SupplierProfile = () => {
     );
   }
 
+  const pendingOrders = orders.filter(order => order.status === 'Pending');
+  const processedOrders = orders.filter(order => order.status !== 'Pending');
+
   return (
     <>
       <Container className="mt-5">
@@ -101,26 +104,54 @@ const SupplierProfile = () => {
       </Container>
 
       <Container className="mt-4">
-        <h2>Orders</h2>
-        {orders.length === 0 ? <p>No orders found.</p> : orders.map((order) => (
-          <Card key={order._id} className="mb-3">
-            <Card.Body>
-              <h5>Product: {order.product.name}</h5>
-              <p>Color:{order.product.color}</p>
-              <p>Gender:{order.product.gender}</p>
-              <p>Material:{order.product.material}</p>
-              <p>Size:{order.product.size}</p>
-              <p>Quantity: {order.quantity}</p>
-              <p>Status: {order.status}</p>
-              {order.status === 'Pending' && (
-                <div>
-                  <Button variant="success" onClick={() => handleOrderAction(order._id, 'Accepted')} className="me-2">Accept</Button>
-                  <Button variant="danger" onClick={() => handleOrderAction(order._id, 'Rejected')}>Reject</Button>
-                </div>
-              )}
-            </Card.Body>
-          </Card>
-        ))}
+        <h2>Pending Orders</h2>
+        {pendingOrders.length === 0 ? <p>No pending orders.</p> : (
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pendingOrders.map(order => (
+                <tr key={order._id}>
+                  <td>{order.product.name}</td>
+                  <td>{order.quantity}</td>
+                  <td>
+                    <Button variant="success" onClick={() => handleOrderAction(order._id, 'Accepted')} className="me-2">Accept</Button>
+                    <Button variant="danger" onClick={() => handleOrderAction(order._id, 'Rejected')}>Reject</Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </Container>
+
+      <Container className="mt-4">
+        <h2>Processed Orders</h2>
+        {processedOrders.length === 0 ? <p>No approved or rejected orders.</p> : (
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {processedOrders.map(order => (
+                <tr key={order._id}>
+                  <td>{order.product.name}</td>
+                  <td>{order.quantity}</td>
+                  <td>{order.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Container>
     </>
   );
