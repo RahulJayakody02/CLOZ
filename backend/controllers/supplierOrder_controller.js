@@ -4,12 +4,13 @@ const Product = require("../models/product_model.js");
 const Supplier = require("../models/supplier_model.js");
 
 // Place Order (Automated from product controller)
-const placeOrder = async (productId, supplierId, quantity) => {
+const placeOrder = async (productId, supplierId, quantity,supplierUnitPrice) => {
     try {
         const newOrder = new Order({
             product: productId,
             supplier: supplierId,
             quantity,
+            totalPrice: quantity * supplierUnitPrice,
         });
 
         const savedOrder = await newOrder.save();
@@ -34,11 +35,12 @@ const placeOrder = async (productId, supplierId, quantity) => {
 //manual order
 const placeManualOrder = async (req,res) => {
     try {
-        const { productObjectId, supplierObjectId, quantity } = req.body;
+        const { productObjectId, supplierObjectId, quantity,totalPrice } = req.body;
         const newOrder = new Order({
             product: productObjectId,
             supplier: supplierObjectId,
             quantity:quantity,
+            totalPrice:totalPrice,
             adminStatus:"Approved"
         });
 
