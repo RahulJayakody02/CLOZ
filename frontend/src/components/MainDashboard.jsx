@@ -25,6 +25,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-md-4 mb-4">
+         <div className="card h-100">
+           <div className="card-body">
+             <h5 className="card-title">Discount Management</h5>
+             <p className="card-text">Manage discounts applied to invoices.</p>
+             <Link to="/discounts" className="btn btn-primary">Go to Discounts</Link>
+            </div>
+           </div>
+        </div>
+
+        <div className="col-md-4 mb-4">
           <div className="card h-100">
             <div className="card-body">
               <h5 className="card-title">Sales</h5>
