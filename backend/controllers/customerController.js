@@ -35,7 +35,7 @@ exports.createCustomer = async (req, res) => {
 };
 
 // Customer login by phone number
-exports.loginCustomer = async (req, res) => {
+/*exports.loginCustomer = async (req, res) => {
   try {
     const { phone } = req.body;
 
@@ -59,6 +59,45 @@ exports.loginCustomer = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
+};
+*/
+
+// Customer Login by Phone Number
+exports.loginCustomer = async (req, res) => {
+  try {
+    const { phone } = req.body;
+
+    // Find customer by phone
+    const customer = await Customer.findOne({ phone });
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found!" });
+    }
+
+    // Store customer session
+    req.session.customer = {
+      id: customer._id,
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone,
+    };
+
+    res.status(200).json({
+      message: "Customer logged in successfully!",
+      customer: req.session.customer,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// Customer Logout
+exports.logoutCustomer = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Logout failed!" });
+    }
+    res.status(200).json({ message: "Customer logged out successfully!" });
+  });
 };
 
 // Fetch all customers
