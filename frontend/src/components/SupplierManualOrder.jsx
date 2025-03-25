@@ -11,8 +11,10 @@ const PlaceOrderForm = () => {
         supplierName: "",
         quantity: "",
     });
+    const [supplierUnitPrice, setUnitPrice] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
     const [supplierObjectId, setSupplierId] = useState(null);
-    const [productObjectId, setProducObjecttId] = useState(null);
+    const [productObjectId, setProductObjectId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
@@ -21,6 +23,11 @@ const PlaceOrderForm = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        // Calculate total price when quantity changes
+        if (name === "quantity") {
+            setTotalPrice(value * supplierUnitPrice);
+        }
     };
 
     useEffect(() => {
@@ -29,23 +36,26 @@ const PlaceOrderForm = () => {
                 const response = await axios.get(
                     `http://localhost:8070/products/${productId}`
                 );
-
-                const productObjectId=response.data._id;
-                setProducObjecttId(productObjectId)
+                console.log(response.data);
+                const productObjectId = response.data._id;
+                setProductObjectId(productObjectId);
                 const supplierId = response.data.supplier;
                 setSupplierId(supplierId);
 
                 const supplierResponse = await axios.get(
                     `http://localhost:8070/supplier/${supplierId}`
                 );
-
-                const suppliername = supplierResponse.data.name;
+                
+                const supplierName = supplierResponse.data.name;
 
                 setFormData({
                     productName: response.data.name,
-                    supplierName: suppliername,
+                    supplierName: supplierName,
                     quantity: "",
                 });
+
+                setUnitPrice(response.data.supplierUnitPrice); 
+                setTotalPrice(0); 
             } catch (error) {
                 console.error("Error fetching product:", error);
                 toast.error("Failed to fetch product details");
@@ -62,16 +72,17 @@ const PlaceOrderForm = () => {
         setMessage(null);
         setError(null);
 
-
         try {
-            const response = await axios.post("http://localhost:8070/order/place", {
+            await axios.post("http://localhost:8070/order/place", {
                 productObjectId,
                 supplierObjectId,
                 quantity: formData.quantity,
+                totalPrice, 
             });
 
             setMessage("Order placed successfully!");
-            setFormData({ productName: "", supplierName: "", quantity: "" }); // Reset form
+            setFormData({ productName: "", supplierName: "", quantity: "" });
+            setTotalPrice(0);
         } catch (error) {
             setError("Failed to place order. Please try again.");
             console.error("Error placing order:", error);
@@ -125,6 +136,17 @@ const PlaceOrderForm = () => {
                         onChange={handleChange}
                         required
                         min="1"
+                    />
+                </div>
+
+                {/* Total Price */}
+                <div className="mb-3">
+                    <label className="form-label">Total Price</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={totalPrice.toFixed(2)} 
+                        readOnly
                     />
                 </div>
 

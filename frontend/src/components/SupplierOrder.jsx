@@ -17,6 +17,7 @@ const ViewAllOrders = () => {
         try {
             const response = await axios.get('http://localhost:8070/order/allorders');
             setOrders(response.data);
+            console.log(response.data);
         } catch (error) {
             console.error("Error fetching orders:", error);
         } finally {
@@ -71,6 +72,7 @@ const ViewAllOrders = () => {
                                         <th>Product Name</th>
                                         <th>Supplier Name</th>
                                         <th>Quantity</th>
+                                        <th>TotalPrice</th>
                                         <th>Approval Status</th>
                                         <th>Details</th>
                                     </tr>
@@ -82,6 +84,7 @@ const ViewAllOrders = () => {
                                             <td>{order.product?.name || 'N/A'}</td>
                                             <td>{order.supplier?.name || 'N/A'}</td>
                                             <td>{order.quantity}</td>
+                                            <td>Rs.{order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</td>
                                             <td>
                                                 <button
                                                     className="btn btn-sm btn-success me-2"
@@ -114,6 +117,7 @@ const ViewAllOrders = () => {
                                                                 <p><strong>Product:</strong> {order.product?.name}</p>
                                                                 <p><strong>Supplier:</strong> {order.supplier?.name}</p>
                                                                 <p><strong>Quantity:</strong> {order.quantity}</p>
+                                                                <p><strong>Total Price:</strong>Rs.{order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</p>
                                                                 <p><strong>Supplier Status:</strong> {order.status}</p>
                                                                 <hr />
                                                                 <p><strong>Product Gender:</strong> {order.product?.gender}</p>
@@ -146,6 +150,7 @@ const ViewAllOrders = () => {
                                         <th>Product Name</th>
                                         <th>Supplier Name</th>
                                         <th>Quantity</th>
+                                        <th>Total Price</th>
                                         <th>Supplier Status</th>
                                         <th>Reorder Status</th>
                                         <th>Details</th>
@@ -158,6 +163,7 @@ const ViewAllOrders = () => {
                                             <td>{order.product?.name || 'N/A'}</td>
                                             <td>{order.supplier?.name || 'N/A'}</td>
                                             <td>{order.quantity}</td>
+                                            <td>Rs.{order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</td>
                                             <td><span className={`badge ${getStatusClass(order.status)}`}>{order.status}</span></td>
                                             <td><span className={`badge ${getStatusClass(order.adminStatus)}`}>{order.adminStatus}</span></td>
                                             <td>
@@ -174,6 +180,7 @@ const ViewAllOrders = () => {
                                                                 <p><strong>Product:</strong> {order.product?.name}</p>
                                                                 <p><strong>Supplier:</strong> {order.supplier?.name}</p>
                                                                 <p><strong>Quantity:</strong> {order.quantity}</p>
+                                                                <p><strong>Total Price:</strong>Rs.{order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</p>
                                                                 <p><strong>Supplier Status:</strong> {order.status}</p>
                                                                 <hr />
                                                                 <p><strong>Product Gender:</strong> {order.product?.gender}</p>
