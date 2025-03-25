@@ -177,7 +177,7 @@ const getProductById = async (req, res) => {
         res.json(product);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Error fetching the product" });
+        res.status(500).json({ error: "Error the product" });
     }
 };
 
