@@ -149,7 +149,7 @@ const updateProduct = async (req, res) => {
 
         if (update.quantityInStock <= update.reOrderLevel) {
             
-            await placeOrder(update._id, update.supplier, update.reOrderquantity);
+            await placeOrder(update._id, update.supplier, update.reOrderquantity,update.supplierUnitPrice);
 
         }
         res.json({ status: "product updated", product: update });
