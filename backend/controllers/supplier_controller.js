@@ -20,7 +20,7 @@ const addSupplier = async (req, res) => {
     });
 
     if (existingSupplier) {
-      return res.status(400).json({ message: 'Supplier with given email or ID already exists.' });
+      return res.status(400).json({ message: 'Supplier with ID already exists.' });
     }
 
     // Create new supplier
@@ -88,5 +88,23 @@ const getSupplier= async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+//update supplier
+const updateSupplier= async (req, res) => {
+  try {
+    const updatedSupplier = await Supplier.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.status(200).json({ message: "Supplier updated successfully!", supplier: updatedSupplier });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+//delete supplier
+const deleteSupplier= async (req, res) => {
+  try {
+    await Supplier.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Supplier deleted successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-module.exports = { addSupplier,getSuppliers,get,getSupplier };
+module.exports = { addSupplier,getSuppliers,get,getSupplier,updateSupplier,deleteSupplier };

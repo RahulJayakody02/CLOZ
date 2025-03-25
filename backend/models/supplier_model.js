@@ -15,7 +15,11 @@ const supplierSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  phone: {
+  brand: {
+    type: String,
+    required: true,
+  },
+    phone: {
     type: String
   },
   address: {

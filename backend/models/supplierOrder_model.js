@@ -7,7 +7,11 @@ const orderSchema = new mongoose.Schema({
     quantity: { type: Number, required: true },
     status: { type: String, enum: ['Pending', 'Accepted', 'Rejected'], default: 'Pending' },
     adminStatus:{type: String,  default: 'Pending'},
-    createdAt: { type: Date, default: Date.now },
+    createdAt: {
+        type: Date,
+        default: Date.now,  
+        expires: 90 * 24 * 60 * 60,     
+      },
 });
 
 module.exports = mongoose.model('Order', orderSchema);

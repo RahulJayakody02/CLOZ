@@ -12,4 +12,8 @@ router.get('/:supplierObjectId',supplier.get);
 
 router.get('/supplierprofile/:supplierId',supplier.getSupplier);
 
+router.put('/update/:id',supplier.updateSupplier);
+
+router.delete('/delete/:id',supplier.deleteSupplier);
+
 module.exports = router;

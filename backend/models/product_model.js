@@ -61,6 +61,10 @@ const productSchema = new mongoose.Schema({
     type: Number, 
     required: true },
 
+  supplierUnitPrice: { 
+    type: Number, 
+    required: true },
+
   discountPrice: { 
     type: Number, 
     default: 0 },

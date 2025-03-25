@@ -5,6 +5,7 @@ const {placeOrder}=require("./supplierOrder_controller.js");
 
 
 
+
 // Add a new product
 const addProduct = async (req, res) => {
     console.log("Request Body:", req.body);
@@ -23,9 +24,11 @@ const addProduct = async (req, res) => {
             supplier,
             price,
             discountPrice,
+            supplierUnitPrice,
             images,
         } = req.body;
 
+        
         if (!mongoose.Types.ObjectId.isValid(supplier)) {
             return res.status(400).json({ message: 'Invalid supplier ID' });
           }
@@ -48,6 +51,7 @@ const addProduct = async (req, res) => {
             quantityInStock,
             supplier,
             price,
+            supplierUnitPrice,
             discountPrice,
             images,
         });
@@ -89,7 +93,7 @@ const getProducts = async (req, res) => {
             filters.size = size;
         }
 
-        const products = await Product.find(filters);
+        const products = await Product.find(filters).populate("supplier");
         res.json(products);
     } catch (error) {
         console.error(error);
@@ -114,6 +118,7 @@ const updateProduct = async (req, res) => {
             supplier,
             price,
             discountPrice,
+            supplierUnitPrice,
             images,
         } = req.body;
 
@@ -130,6 +135,7 @@ const updateProduct = async (req, res) => {
             supplier,
             price,
             discountPrice,
+            supplierUnitPrice,
             images,
         };
 
