@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8070;
 app.use(cors());
 app.use(bodyParser.json());
 app.use((req, res, next) => {
-    res.header('Content-Type', 'application/json; charset=utf-8');
+    res.header("Content-Type", "application/json; charset=utf-8");
     next();
 });
 
@@ -34,11 +34,23 @@ const connectDB = async () => {
 connectDB();
 
 // Routes
+//const discountRoutes = require("./routes/discount_route");
 const salesRoutes = require("./routes/salesRoutes");
-const discountRoutes = require("./routes/discountRoutes");
 
+//app.use("/api/discounts", discountRoutes);
 app.use("/api/sales", salesRoutes);
-app.use("/api/discounts", discountRoutes); // Added discount routes
+
+// Fallback Route for Undefined Endpoints
+app.use((req, res) => {
+    res.status(404).json({ error: "Endpoint not found" });
+});
+
+// Graceful Shutdown
+process.on("SIGINT", async () => {
+    console.log("Shutting down server...");
+    await mongoose.connection.close();
+    process.exit(0);
+});
 
 // Start Server
 app.listen(PORT, () => {
