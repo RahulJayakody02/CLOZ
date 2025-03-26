@@ -1,7 +1,7 @@
 /* General Page Styling */
 .discount-page {
-  background-color: #121212; /* Dark background */
-  color: #ffffff; /* White text */
+  background-color: #ffffff; /* White background */
+  color: #333333; /* Dark text */
   min-height: 100vh;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -12,36 +12,37 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
 .discount-table th,
 .discount-table td {
-  border: 1px solid #333333; /* Darker border */
+  border: 1px solid #cccccc; /* Light gray border */
   padding: 10px;
   text-align: center;
 }
 
 .discount-table th {
-  background-color: #1f1f1f; /* Darker header background */
+  background-color: #007bff; /* Blue header background */
   color: #ffffff; /* White text */
   font-weight: bold;
 }
 
 .discount-table tr:nth-child(even) {
-  background-color: #1a1a1a; /* Slightly lighter row background */
+  background-color: #f9f9f9; /* Light gray for even rows */
 }
 
 .discount-table tr:nth-child(odd) {
-  background-color: #121212; /* Darker row background */
+  background-color: #ffffff; /* White for odd rows */
 }
 
 .discount-table tr:hover {
-  background-color: #333333; /* Highlight row on hover */
+  background-color: #e6f7ff; /* Light blue on hover */
 }
 
 /* Buttons */
 .discount-button {
-  background-color: #333333; /* Dark button background */
+  background-color: #007bff; /* Blue button background */
   color: #ffffff; /* White text */
   border: none;
   padding: 8px 12px;
@@ -51,7 +52,7 @@
 }
 
 .discount-button:hover {
-  background-color: #555555; /* Lighter background on hover */
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 .discount-button.delete {
@@ -64,30 +65,31 @@
 
 /* Form Styling */
 .discount-form {
-  background-color: #1f1f1f; /* Dark form background */
+  background-color: #f8f9fa; /* Light gray form background */
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
 .discount-form label {
   display: block;
   margin-bottom: 10px;
-  color: #ffffff;
+  color: #333333;
 }
 
 .discount-form input {
   width: 100%;
   padding: 8px;
   margin-bottom: 20px;
-  border: 1px solid #333333;
+  border: 1px solid #cccccc;
   border-radius: 4px;
-  background-color: #121212;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #333333;
 }
 
 .discount-form button {
-  background-color: #333333;
+  background-color: #007bff;
   color: #ffffff;
   border: none;
   padding: 10px 15px;
@@ -97,5 +99,5 @@
 }
 
 .discount-form button:hover {
-  background-color: #555555;
+  background-color: #0056b3;
 }

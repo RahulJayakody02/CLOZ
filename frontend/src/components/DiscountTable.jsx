@@ -97,7 +97,6 @@ function DiscountTable() {
   };
 
 // Delete discount
-// Delete discount
 const handleDeleteDiscount = async (productId) => {
   try {
     // Find the discount associated with the productId
