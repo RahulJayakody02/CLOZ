@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./DiscountTable.css";
 
 function DiscountTable() {
   const [products, setProducts] = useState([]);
@@ -121,10 +122,10 @@ const handleDeleteDiscount = async (productId) => {
 };
 
   return (
-    <div>
+    <div className="discount-page">
       <h2>Product Discount Table</h2>
       {products.length > 0 ? (
-        <table border="1">
+        <table className="discount-table">
           <thead>
             <tr>
               <th>Product Name</th>
@@ -150,11 +151,17 @@ const handleDeleteDiscount = async (productId) => {
                   <td>{discount.totalPriceAfterDiscount || product.price}</td>
                   <td>{discount.date ? new Date(discount.date).toLocaleDateString() : "N/A"}</td>
                   <td>
-                    <button onClick={() => setSelectedProduct(product)}>
+                    <button
+                      className="discount-button"
+                      onClick={() => setSelectedProduct(product)}
+                    >
                       {discount.discountPercentage ? "Update" : "Add"} Discount
                     </button>
                     {discount.discountPercentage > 0 && (
-                      <button onClick={() => handleDeleteDiscount(product._id)}>
+                      <button
+                        className="discount-button delete"
+                        onClick={() => handleDeleteDiscount(product._id)}
+                      >
                         Delete Discount
                       </button>
                     )}
@@ -170,7 +177,7 @@ const handleDeleteDiscount = async (productId) => {
 
       {/* Discount Form */}
       {selectedProduct && (
-        <div>
+        <div className="discount-form">
           <h3>
             {discounts[selectedProduct._id]
               ? "Update"
@@ -192,7 +199,6 @@ const handleDeleteDiscount = async (productId) => {
                 required
               />
             </label>
-            <br />
             <label>
               Date:
               <input
@@ -203,7 +209,6 @@ const handleDeleteDiscount = async (productId) => {
                 required
               />
             </label>
-            <br />
             <button type="submit">Submit</button>
             <button type="button" onClick={() => setSelectedProduct(null)}>
               Cancel
