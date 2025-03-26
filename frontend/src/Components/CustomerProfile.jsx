@@ -48,7 +48,7 @@ const CustomerProfile = ({ customer }) => {
       <ul>
         {customer.purchaseHistory.map((purchase, index) => (
           <li key={index}>
-            {purchase.productName} - ${purchase.amount} on{" "}
+            {purchase.productName} - Rs.{purchase.amount} on{" "}
             {new Date(purchase.purchaseDate).toLocaleDateString()}
           </li>
         ))}

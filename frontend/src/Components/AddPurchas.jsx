@@ -37,7 +37,7 @@ const AddPurchase = () => {
       />
       <input
         type="number"
-        placeholder="Amount ($)"
+        placeholder="Amount (Rs)"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />

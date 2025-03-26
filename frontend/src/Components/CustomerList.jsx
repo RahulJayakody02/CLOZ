@@ -164,7 +164,7 @@ function CustomerList() {
                         <div key={index}>
                           <strong>Product:</strong> {purchase.productName}{" "}
                           <br />
-                          <strong>Amount:</strong> ${purchase.amount} <br />
+                          <strong>Amount:</strong> Rs{purchase.amount} <br />
                           <strong>Purchase Date:</strong>{" "}
                           {new Date(purchase.purchaseDate).toLocaleDateString()}
                         </div>
@@ -175,6 +175,7 @@ function CustomerList() {
                   </td>
                   <td>
                     <button onClick={() => handleEdit(customer)}>Edit</button>
+
                     <button onClick={() => handleDelete(customer._id)}>
                       Delete
                     </button>

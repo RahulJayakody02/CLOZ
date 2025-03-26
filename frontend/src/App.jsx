@@ -28,8 +28,6 @@ function App() {
         {customer && (
           <>
             <Link to="/profile">Profile</Link> |{" "}
-            <Link to="/loyalty">Loyalty Points</Link> |{" "}
-            <Link to="/purchase-history">Purchase History</Link> |{" "}
             <Link to="/make-purchase">Make Purchase</Link>
           </>
         )}

@@ -26,7 +26,7 @@ const PurchaseHistory = () => {
       <ul>
         {history.map((purchase, index) => (
           <li key={index}>
-            {purchase.productName} - ${purchase.amount}
+            {purchase.productName} - {purchase.amount}
           </li>
         ))}
       </ul>
