@@ -1,4 +1,5 @@
 const Supplier = require('../models/supplier_model'); 
+const jwt = require('jsonwebtoken');
 
 // Add new supplier
 const addSupplier = async (req, res) => {
@@ -10,6 +11,7 @@ const addSupplier = async (req, res) => {
       phone,
       address,
       company,
+      brand,
       password, 
       status
     } = req.body;
@@ -31,7 +33,8 @@ const addSupplier = async (req, res) => {
       phone,
       address,
       company,
-      password, // For production, hash this before saving
+      brand,
+      password, 
       status
     });
 
@@ -44,8 +47,6 @@ const addSupplier = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
-
-
 
 const getSuppliers = async (req, res) => {
   try {
@@ -88,6 +89,7 @@ const getSupplier= async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 //update supplier
 const updateSupplier= async (req, res) => {
   try {
@@ -97,6 +99,7 @@ const updateSupplier= async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 //delete supplier
 const deleteSupplier= async (req, res) => {
   try {
@@ -107,4 +110,36 @@ const deleteSupplier= async (req, res) => {
   }
 };
 
-module.exports = { addSupplier,getSuppliers,get,getSupplier,updateSupplier,deleteSupplier };
+// Login supplier
+const loginSupplier = async (req, res) => {
+  const { supplierId, password } = req.body;
+
+  try {
+    const supplier = await Supplier.findOne({ supplierId });
+    if (!supplier) {
+      return res.status(404).json({ message: 'Supplier not found' });
+    }
+
+    const isMatch = await supplier.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ id: supplier._id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.status(200).json({ token, supplierId: supplier.supplierId });
+  } catch (error) {
+    console.error('Error logging in supplier:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Logout supplier
+const logoutSupplier = (req, res) => {
+  res.status(200).json({ message: 'Logged out successfully' });
+};
+
+module.exports = { addSupplier, getSuppliers, get, getSupplier, updateSupplier, deleteSupplier, loginSupplier, logoutSupplier };

@@ -62,6 +62,11 @@ const orderRoutes = require('./routes/supplierorder_route');
 
 app.use('/order', orderRoutes);
 
+const salesRoutes = require("./routes/salesRoute");
+
+
+app.use("/api/sales", salesRoutes);
+
 
 
 
