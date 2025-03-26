@@ -10,19 +10,20 @@ import Sidebar from "./components/MainDashoardSideBar";
 import ProductFilter from "./components/ProductFilter";
 import SupplierProfile from "./components/supplierprofile";
 import ViewAllOrders from "./components/SupplierOrder";
-import PlaceOrderForm from "./components/SupplierManualOrder" 
+import PlaceOrderForm from "./components/SupplierManualOrder";
+import DiscountTable from "./components/DiscountTable"; // Import DiscountTable
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./components/MainDashboard";
 
 const App = () => {
   const [products, setProducts] = useState([]);
   const [notifications, setNotifications] = useState(() => {
-    //  Load notifications from localStorage when app starts
+    // Load notifications from localStorage when app starts
     const savedNotifications = localStorage.getItem("notifications");
     return savedNotifications ? JSON.parse(savedNotifications) : [];
   });
 
-  //  Save notifications to localStorage whenever it changes
+  // Save notifications to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("notifications", JSON.stringify(notifications));
   }, [notifications]);
@@ -30,7 +31,7 @@ const App = () => {
   // Fetch products from backend
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:8070/products/");
+      const response = await axios.get("http://localhost:8070/api/products/"); // Updated endpoint
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -84,7 +85,7 @@ const App = () => {
                     notifications={notifications}
                     markNotificationAsSeen={markNotificationAsSeen}
                   />
-                  <ProductFilter/>
+                  <ProductFilter />
                   <ProductList products={products} fetchProducts={fetchProducts} />
                 </div>
               }
@@ -97,13 +98,10 @@ const App = () => {
               path="/products/update/:productId"
               element={<UpdateProductForm fetchProducts={fetchProducts} />}
             />
-      
             <Route path="/supplier/:supplierId" element={<SupplierProfile />} />
-
             <Route path="/orders" element={<ViewAllOrders />} />
             <Route path="/products/order/:productId" element={<PlaceOrderForm />} />
-      
-    
+            <Route path="/discounts" element={<DiscountTable />} /> {/* Added Discounts Route */}
           </Routes>
         </div>
       </div>
