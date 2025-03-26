@@ -12,6 +12,7 @@ import CustomerProfile from "./Components/CustomerProfile";
 import LoyaltyPoints from "./Components/LoyaltyPoints";
 import AddPurchase from "./Components/AddPurchas";
 import PurchaseHistory from "./Components/PurchaseHistory";
+import MakePurchase from "./Components/MakePurchase";
 import { useState } from "react";
 import "./App.css";
 
@@ -28,7 +29,8 @@ function App() {
           <>
             <Link to="/profile">Profile</Link> |{" "}
             <Link to="/loyalty">Loyalty Points</Link> |{" "}
-            <Link to="/purchase-history">Purchase History</Link>
+            <Link to="/purchase-history">Purchase History</Link> |{" "}
+            <Link to="/make-purchase">Make Purchase</Link>
           </>
         )}
       </nav>
@@ -81,6 +83,16 @@ function App() {
           element={
             customer ? (
               <PurchaseHistory phone={customer.phone} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/make-purchase"
+          element={
+            customer ? (
+              <MakePurchase customer={customer} />
             ) : (
               <Navigate to="/login" replace />
             )
