@@ -1,6 +1,6 @@
 const Customer = require("../models/customer");
 
-//✅ Add a purchase and update loyalty points
+// Add a purchase and update loyalty points
 exports.addPurchaseAndPoints = async (req, res) => {
   try {
     const { phone, productName, amount } = req.body;
@@ -42,7 +42,7 @@ exports.addPurchaseAndPoints = async (req, res) => {
   }
 };
 
-// ✅ Get customer loyalty points using phone number
+// Get customer loyalty points using phone number
 exports.getLoyaltyPoints = async (req, res) => {
   try {
     const { phone } = req.params;
@@ -64,7 +64,7 @@ exports.getLoyaltyPoints = async (req, res) => {
   }
 };
 
-// ✅ Fetch all purchase history of a customer by phone number
+// Fetch all purchase history of a customer by phone number
 exports.getPurchaseHistory = async (req, res) => {
   try {
     const { phone } = req.params;

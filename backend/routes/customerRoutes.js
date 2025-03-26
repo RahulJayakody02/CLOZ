@@ -13,10 +13,10 @@ const router = express.Router();
 // Route to create a new customer profile
 router.post("/register", createCustomer);
 
-// Route to log in a customer by phone number
-router.post("/login", loginCustomer);
+/* // Route to log in a customer by phone number
+router.post("/login", loginCustomer); */
 
-router.post("/logout", logoutCustomer);
+//router.post("/logout", logoutCustomer);
 
 // Fetch all customers
 router.get("/read", getCustomers);
