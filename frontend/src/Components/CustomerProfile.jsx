@@ -6,6 +6,7 @@ const CustomerProfile = ({ customer }) => {
   const [loyaltyPoints, setLoyaltyPoints] = useState(customer.loyaltyPoints); // Current loyalty points
   const [productName, setProductName] = useState(""); // Product name input
   const [amount, setAmount] = useState(""); // Amount input
+  console.log(customer);
 
   // Handle purchase and update loyalty points
   const handlePurchase = async () => {
@@ -37,7 +38,7 @@ const CustomerProfile = ({ customer }) => {
       <p>Name: {customer.name}</p>
       <p>Email: {customer.email}</p>
       <p>Phone: {customer.phone}</p>
-      <p>Loyalty Points: {loyaltyPoints}</p>
+      <p>Loyalty Points: {customer.loyaltyPoints}</p>
 
       {/* Button to redirect to MakePurchase component */}
       <Link to="/make-purchase">

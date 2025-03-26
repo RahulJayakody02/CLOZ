@@ -16,6 +16,7 @@ const API_URL = "http://localhost:8070/api/loyalty"; // Adjust as needed
     throw error;
   }
 };*/
+
 export const addPurchase = async (phone, productName, amount) => {
   try {
     const response = await axios.post(`${API_URL}/addPurchaseAndPoints`, {

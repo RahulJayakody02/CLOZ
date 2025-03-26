@@ -24,11 +24,16 @@ function CustomerList() {
   };
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${API_URL}/delete/${id}`);
-      setCustomers(customers.filter((customer) => customer._id !== id));
-    } catch (error) {
-      console.error("Error deleting customer:", error);
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this customer?"
+    );
+    if (confirmDelete) {
+      try {
+        await axios.delete(`${API_URL}/delete/${id}`);
+        setCustomers(customers.filter((customer) => customer._id !== id));
+      } catch (error) {
+        console.error("Error deleting customer:", error);
+      }
     }
   };
 
