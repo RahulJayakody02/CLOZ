@@ -1,7 +1,11 @@
-const Customer = require("../models/customer");
+import Customer from "../models/customer.js";
+import express from "express";
+import axios from "axios";
+
+const router = express.Router();
 
 // Create a new customer profile
-exports.createCustomer = async (req, res) => {
+export const createCustomer = async (req, res) => {
   try {
     const { name, email, phone } = req.body;
 
@@ -34,12 +38,12 @@ exports.createCustomer = async (req, res) => {
   }
 };
 
-// Customer login by phone number
-/*exports.loginCustomer = async (req, res) => {
+// Customer Login by Phone Number
+export const loginCustomer = async (req, res) => {
   try {
     const { phone } = req.body;
 
-    // Find customer by phone number
+    // Find customer by phone
     const customer = await Customer.findOne({ phone });
     if (!customer) {
       return res.status(404).json({ message: "Customer not found!" });
@@ -49,6 +53,7 @@ exports.createCustomer = async (req, res) => {
     res.status(200).json({
       message: "Customer logged in successfully!",
       customer: {
+        id: customer._id,
         name: customer.name,
         email: customer.email,
         phone: customer.phone,
@@ -60,48 +65,24 @@ exports.createCustomer = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
-*/
 
-// Customer Login by Phone Number
-exports.loginCustomer = async (req, res) => {
+// Customer Logout
+export const logoutCustomer = (req, res) => {
   try {
-    const { phone } = req.body;
-
-    // Find customer by phone
-    const customer = await Customer.findOne({ phone });
-    if (!customer) {
-      return res.status(404).json({ message: "Customer not found!" });
-    }
-
-    // Store customer session
-    req.session.customer = {
-      id: customer._id,
-      name: customer.name,
-      email: customer.email,
-      phone: customer.phone,
-    };
-
-    res.status(200).json({
-      message: "Customer logged in successfully!",
-      customer: req.session.customer,
+    // Destroy the session or clear authentication token
+    req.session?.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ message: "Logout failed!" });
+      }
+      res.status(200).json({ message: "Customer logged out successfully!" });
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ message: "Server error during logout", error });
   }
 };
 
-// Customer Logout
-exports.logoutCustomer = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: "Logout failed!" });
-    }
-    res.status(200).json({ message: "Customer logged out successfully!" });
-  });
-};
-
 // Fetch all customers
-exports.getCustomers = async (req, res) => {
+export const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find();
     res.json(customers);
@@ -110,8 +91,8 @@ exports.getCustomers = async (req, res) => {
   }
 };
 
-//Update (Edit) a customer profile
-exports.updateCustomer = async (req, res) => {
+// Update (Edit) a customer profile
+export const updateCustomer = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, phone } = req.body;
@@ -136,7 +117,7 @@ exports.updateCustomer = async (req, res) => {
 };
 
 // Delete a customer profile
-exports.deleteCustomer = async (req, res) => {
+export const deleteCustomer = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -146,8 +127,14 @@ exports.deleteCustomer = async (req, res) => {
       return res.status(404).json({ message: "Customer not found!" });
     }
 
-    res.status(200).json({ message: "delete successfully!" });
+    res.status(200).json({ message: "Customer deleted successfully!" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+// Login route
+router.post("/login", loginCustomer);
+
+// Export the router
+export default router;
