@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/SupplierOrder.css';
 
 const ViewAllOrders = () => {
     const [orders, setOrders] = useState([]);

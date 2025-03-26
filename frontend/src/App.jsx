@@ -16,6 +16,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./components/MainDashboard";
 import AddSupplier from "./components/AddSupplier";
 import EditSupplier from "./components/EditSupplier";
+import SupplierLogin from './components/SupplierLogin';
+import SalesPage from "./pages/SalesPage";
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -107,8 +109,11 @@ const App = () => {
             <Route path="/supplier/orders" element={<ViewAllOrders />} />
             <Route path="supplier/update/:supplerId" element={<EditSupplier />} />
             <Route path="/products/order/:productId" element={<PlaceOrderForm />} />
+            <Route path="/login" element={<SupplierLogin />} />
+            <Route path="/supplierprofile" element={<SupplierProfile />} />
+            <Route path="/sales" element={<SalesPage />} />
       
-    
+              
           </Routes>
         </div>
       </div>

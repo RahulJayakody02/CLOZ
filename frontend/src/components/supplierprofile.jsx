@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Card, Container, Spinner, Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/supplierprofile.css";
@@ -12,22 +12,31 @@ const SupplierProfile = () => {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login'); // Redirect to login if not authenticated
+    }
+
     const fetchSupplier = async () => {
       try {
-        const response = await axios.get(`http://localhost:8070/supplier/supplierprofile/${supplierId}`);
+        const response = await axios.get(`http://localhost:8070/supplier/supplierprofile/${supplierId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setSupplier(response.data);
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch supplier data.");
         setLoading(false);
         console.error("Error fetching supplier:", err);
+        navigate('/login'); // Redirect to login on error
       }
     };
 
     fetchSupplier();
-  }, [supplierId]);
+  }, [supplierId, navigate]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -52,6 +61,11 @@ const SupplierProfile = () => {
       setError("Failed to update order.");
       console.error("Error updating order:", err);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   if (loading) {
@@ -99,6 +113,7 @@ const SupplierProfile = () => {
             <p><strong>Company:</strong> {supplier.company}</p>
             <p><strong>Status:</strong> <span className={supplier.status === "Active" ? "status-active" : "status-inactive"}>{supplier.status}</span></p>
             <p><strong>Created At:</strong> {new Date(supplier.createdAt).toLocaleString()}</p>
+            <Button variant="danger" onClick={handleLogout}>Logout</Button>
           </Card.Body>
         </Card>
       </Container>

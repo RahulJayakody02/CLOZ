@@ -6,16 +6,20 @@ import { toast } from "react-toastify";
 const EditSupplier = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [supplier, setSupplier] = useState(null);
+  const [supplier, setSupplier] = useState({});
+  const [loading, setLoading] = useState(true);
 
   // Fetch supplier details
   useEffect(() => {
     const fetchSupplier = async () => {
       try {
         const response = await axios.get(`http://localhost:8070/supplier/${id}`);
+        //console.log("Fetched supplier:", response.data); // Debugging
         setSupplier(response.data);
       } catch (error) {
         console.error("Error fetching supplier:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchSupplier();
@@ -29,6 +33,7 @@ const EditSupplier = () => {
   // Update supplier details
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Updating supplier with data:", supplier); // Debugging
     try {
       await axios.put(`http://localhost:8070/supplier/${id}`, supplier);
       toast.success("Supplier updated successfully!");
@@ -39,7 +44,7 @@ const EditSupplier = () => {
     }
   };
 
-  if (!supplier) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
@@ -53,7 +58,7 @@ const EditSupplier = () => {
             type="text" 
             className="form-control" 
             name="name" 
-            value={supplier.name || ""} 
+            value={supplier?.name || ""} 
             onChange={handleChange} 
             required 
           />
@@ -64,7 +69,7 @@ const EditSupplier = () => {
             type="email" 
             className="form-control" 
             name="email" 
-            value={supplier.email || ""} 
+            value={supplier?.email || ""} 
             onChange={handleChange} 
             required 
           />
@@ -75,7 +80,7 @@ const EditSupplier = () => {
             type="text" 
             className="form-control" 
             name="phone" 
-            value={supplier.phone || ""} 
+            value={supplier?.phone || ""} 
             onChange={handleChange} 
             required 
           />
@@ -85,7 +90,7 @@ const EditSupplier = () => {
           <textarea 
             className="form-control" 
             name="address" 
-            value={supplier.address || ""} 
+            value={supplier?.address || ""} 
             onChange={handleChange} 
             required 
           />

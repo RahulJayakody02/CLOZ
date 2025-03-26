@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const AddSupplier = () => {
-  const [supplier, setSupplier] = useState({ name: "", email: "", phone: "", company: "", address: "" });
+  const [supplier, setSupplier] = useState({ supplierId: "", name: "", email: "", phone: "", company: "", brand: "", password: "" });
 
   const handleChange = (e) => setSupplier({ ...supplier, [e.target.name]: e.target.value });
 
@@ -21,12 +21,14 @@ const AddSupplier = () => {
     <div className="container mt-4">
       <h2>Add Supplier</h2>
       <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="Name" onChange={handleChange} className="form-control mb-2" />
-        <input name="email" placeholder="Email" onChange={handleChange} className="form-control mb-2" />
-        <input name="phone" placeholder="Phone" onChange={handleChange} className="form-control mb-2" />
-        <input name="company" placeholder="Company" onChange={handleChange} className="form-control mb-2" />
-        <input name="brand" placeholder="Brand" onChange={handleChange} className="form-control mb-2" />
-        <input name="password" placeholder="password" onChange={handleChange} className="form-control mb-2" />
+      <input name="supplierId" placeholder="SupplierId" required onChange={handleChange} className="form-control mb-2" />
+        <input name="name" placeholder="Name" required onChange={handleChange} className="form-control mb-2" />
+        <input type="email" name="email" placeholder="Email" required onChange={handleChange} className="form-control mb-2" />
+        <input name="phone" placeholder="Phone" required onChange={handleChange} className="form-control mb-2" />
+        <input name="address" placeholder="Address" required onChange={handleChange} className="form-control mb-2" />
+        <input name="company" placeholder="Company" required onChange={handleChange} className="form-control mb-2" />
+        <input name="brand" placeholder="Brand" required onChange={handleChange} className="form-control mb-2" />
+        <input name="password" placeholder="password" required onChange={handleChange} className="form-control mb-2" />
         <button type="submit" className="btn btn-primary">Add Supplier</button>
       </form>
     </div>

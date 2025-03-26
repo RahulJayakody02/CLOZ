@@ -43,6 +43,8 @@ const SupplierList = () => {
             <th>Phone</th>
             <th>Company</th>
             <th>Brand</th>
+            <th>Actions</th>
+
           </tr>
         </thead>
         <tbody>
