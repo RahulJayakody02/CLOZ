@@ -9,7 +9,6 @@ export const createCustomer = async (req, res) => {
   try {
     const { name, email, phone } = req.body;
 
-    // Check if customer with this email already exists
     const existingCustomerByEmail = await Customer.findOne({ email });
     if (existingCustomerByEmail) {
       return res
@@ -17,7 +16,6 @@ export const createCustomer = async (req, res) => {
         .json({ message: "Customer with this email already exists!" });
     }
 
-    // Check if customer with this phone number already exists
     const existingCustomerByPhone = await Customer.findOne({ phone });
     if (existingCustomerByPhone) {
       return res
@@ -67,7 +65,7 @@ export const loginCustomer = async (req, res) => {
 };
 
 // Customer Logout
-export const logoutCustomer = (req, res) => {
+/*export const logoutCustomer = (req, res) => {
   try {
     // Destroy the session or clear authentication token
     req.session?.destroy((err) => {
@@ -79,7 +77,10 @@ export const logoutCustomer = (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error during logout", error });
   }
-};
+};*/
+
+// Function to handle customer search by phone number
+// Function to handle customer search by phone number
 
 // Fetch all customers
 export const getCustomers = async (req, res) => {
@@ -134,7 +135,6 @@ export const deleteCustomer = async (req, res) => {
 };
 
 // Login route
-router.post("/login", loginCustomer);
+//router.post("/login", loginCustomer);
 
-// Export the router
 export default router;

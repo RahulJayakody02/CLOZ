@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addPurchase } from "../services/api"; // Importing the function to handle API calls
+import { addPurchase } from "../services/api";
 import { Link } from "react-router-dom";
 
 const CustomerProfile = ({ customer }) => {
@@ -40,7 +40,6 @@ const CustomerProfile = ({ customer }) => {
       <p>Phone: {customer.phone}</p>
       <p>Loyalty Points: {customer.loyaltyPoints}</p>
 
-      {/* Button to redirect to MakePurchase component */}
       <Link to="/make-purchase">
         <button>Make a Purchase</button>
       </Link>

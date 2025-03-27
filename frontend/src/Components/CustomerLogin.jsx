@@ -4,9 +4,9 @@ const CustomerLogin = ({ setCustomer }) => {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
 
-  // Validate Sri Lankan mobile number with specific prefixes and exact length
+  // Validate
   const validatePhoneNumber = (phone) => {
-    const regex = /^(070|071|072|075|077|078)\d{7}$/; // Specific prefixes and 10 digits total
+    const regex = /^(070|071|072|075|077|078)\d{7}$/;
     return regex.test(phone);
   };
 
@@ -21,7 +21,7 @@ const CustomerLogin = ({ setCustomer }) => {
       return;
     }
 
-    setError(""); // Clear any previous errors
+    setError("");
 
     try {
       const response = await fetch(

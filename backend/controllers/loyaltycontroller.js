@@ -12,7 +12,7 @@ exports.addPurchaseAndPoints = async (req, res) => {
     }
 
     // Loyalty points calculation (Example: 1 point per $10 spent)
-    const pointsEarned = Math.floor(amount / 10);
+    const pointsEarned = Math.floor(amount / 100);
 
     //Create a new purchase entry
     const newPurchase = {

@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema({
-  name: { type: String, required: true }, // Customer's name
-  email: { type: String, unique: true, required: true }, // Unique email
-  phone: { type: String, unique: true, required: true }, // Unique phone number for login
-  registrationDate: { type: Date, default: Date.now }, // Auto set current date
-  loyaltyPoints: { type: Number, default: 0 }, // Start with 0 loyalty points
+  name: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
+  phone: { type: String, unique: true, required: true },
+  registrationDate: { type: Date, default: Date.now },
+  loyaltyPoints: { type: Number, default: 0 },
   purchaseHistory: [
     {
       productName: { type: String },

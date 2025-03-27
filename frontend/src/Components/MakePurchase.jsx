@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { addPurchase } from "../services/api"; // Importing the function to handle API calls
+import { addPurchase } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 const MakePurchase = ({ customer }) => {
-  const [productName, setProductName] = useState(""); // Product name input
-  const [amount, setAmount] = useState(""); // Amount input
+  const [productName, setProductName] = useState("");
+  const [amount, setAmount] = useState("");
   const navigate = useNavigate();
 
   const handlePurchase = async () => {
@@ -37,13 +37,13 @@ const MakePurchase = ({ customer }) => {
         type="text"
         placeholder="Product Name"
         value={productName}
-        onChange={(e) => setProductName(e.target.value)} // Update product name state
+        onChange={(e) => setProductName(e.target.value)}
       />
       <input
         type="number"
         placeholder="Amount"
         value={amount}
-        onChange={(e) => setAmount(e.target.value)} // Update amount state
+        onChange={(e) => setAmount(e.target.value)}
       />
       <button onClick={handlePurchase}>Add Purchase</button>
     </div>

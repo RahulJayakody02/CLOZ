@@ -53,7 +53,7 @@ function RegisterCustomer() {
     e.preventDefault();
 
     if (!validateForm()) {
-      return; // Stop form submission if validation fails
+      return;
     }
 
     try {
