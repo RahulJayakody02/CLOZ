@@ -13,11 +13,11 @@ function RegisterCustomer() {
     let isValid = true;
     let newErrors = { name: "", email: "", phone: "" };
 
-    // Name validation
+    // Name validation (only letters and spaces, no symbols)
     const namePattern = /^[A-Za-z\s]{3,50}$/;
     if (!namePattern.test(formData.name)) {
       newErrors.name =
-        "Name must contain only letters and spaces (3-50 characters).";
+        "Name can only contain letters and spaces (3-50 chars). No symbols allowed.";
       isValid = false;
     }
 
@@ -28,13 +28,12 @@ function RegisterCustomer() {
       isValid = false;
     }
 
-    // Phone number validation (Mobile only - Sri Lanka)
+    // Phone number validation (Sri Lanka Mobile Numbers)
     if (!/^\d{10}$/.test(formData.phone)) {
       newErrors.phone = "Phone number must be exactly 10 digits.";
       isValid = false;
     } else {
-      const prefix = formData.phone.substring(0, 3); // Get first 3 digits
-
+      const prefix = formData.phone.substring(0, 3);
       if (!mobileCodes.includes(prefix)) {
         newErrors.phone = "Invalid mobile number prefix for Sri Lanka.";
         isValid = false;
