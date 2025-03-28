@@ -37,7 +37,7 @@ export const createCustomer = async (req, res) => {
 };
 
 // Customer Login by Phone Number
-export const loginCustomer = async (req, res) => {
+/*export const loginCustomer = async (req, res) => {
   try {
     const { phone } = req.body;
 

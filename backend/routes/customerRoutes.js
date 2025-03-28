@@ -1,8 +1,8 @@
 const express = require("express");
 const {
   createCustomer,
-  loginCustomer,
-  logoutCustomer,
+  //loginCustomer,
+  //logoutCustomer,
   getCustomers,
   updateCustomer,
   deleteCustomer,
@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/register", createCustomer);
 
-router.post("/login", loginCustomer);
+//router.post("/login", loginCustomer);
 
 //router.post("/logout", logoutCustomer);
 

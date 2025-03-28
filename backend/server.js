@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const app = express();
 require("dotenv").config();
 const customerRoutes = require("./routes/customerRoutes");
-const loyaltyRoutes = require("./routes/loyaltyRoutes");
+//const loyaltyRoutes = require("./routes/loyaltyRoutes");
 
 const PORT = process.env.PORT || 8070;
 
@@ -27,7 +27,7 @@ connection.once("open", () => {
 });
 
 app.use("/api/customers", customerRoutes);
-app.use("/api/loyalty", loyaltyRoutes);
+//app.use("/api/loyalty", loyaltyRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is up and running on port ${PORT}`);
