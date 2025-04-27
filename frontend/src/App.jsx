@@ -37,7 +37,9 @@ import Liab from "./components/LiabilityComponent";
 import Exp from "./components/ExpenseComponent";
 import PettyCash from "./components/PettyComponent";
 import Income from "./components/IncomeComponent";
-import FinanceDashboard from "./components/FinDash";
+import FinDash from "./components/FinDash";
+import FinAccount from "./components/FinAccountComponent";
+
 
 
 import FinanceLayout from "./components/FinanceLayout";
@@ -90,6 +92,8 @@ const App = () => {
       return null;
     }
   });
+
+  
 
   useEffect(() => {
     localStorage.setItem("notifications", JSON.stringify(notifications));
@@ -165,20 +169,20 @@ const App = () => {
     <Router>
       <div className="App">
       <Routes>
-          {/* Routes without header */}
+
           <Route path="/supplier/login" element={<SupplierLogin />} />
           <Route path="/supplier/:supplierId" element={<SupplierProfile />} /> 
           <Route path="*" element={
             <>
         <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Routes>
-          {/* Public Routes */}
+
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/supplier/:supplierId" element={<SupplierProfile />} />
           <Route path="/supplier/login" element={<SupplierLogin />} />
 
-          {/* Protected Routes */}
+
 
           <Route
             path="/change-password"
@@ -351,29 +355,35 @@ const App = () => {
   function FinanceDashboard({ user }) {
     return (
       <div className="dashboard-container">
+        
         <nav className="sidebar">
           <h2>Finance</h2>
           <ul>
+            <li><Link to="/FinanceDashboard/dashboard">Dashboard</Link></li>
             <li><Link to="/FinanceDashboard/assets">Assets</Link></li>
             <li><Link to="/FinanceDashboard/liabilities">Liabilities</Link></li>
             <li><Link to="/FinanceDashboard/expenses">Expenses</Link></li>
             <li><Link to="/FinanceDashboard/incomes">Incomes</Link></li>
             <li><Link to="/FinanceDashboard/pettycash">Petty Cash</Link></li>
-            <li><Link to="/FinanceDashboard/finstatement">Financial statement</Link></li>
+            <li><Link to="/FinanceDashboard/finstatement">Financial statements</Link></li>
+            <li><Link to="/FinanceDashboard/account">Financial Accounts</Link></li>
+
 
           </ul>
         </nav>
 
         <div className="dashboard-content">
           <h1>Finance Dashboard</h1>
-          <p>Hi {user?.name}</p>
+
           <Routes>
+            <Route path="dashboard" element={<FinDash />} />
             <Route path="assets" element={<Asset />} />
             <Route path="liabilities" element={<Liab />} />
             <Route path="expenses" element={<Exp />} />
             <Route path="incomes" element={<Income />} />
             <Route path="pettycash" element={<PettyCash />} />
             <Route path="finstatement" element={<FinStatement />} />
+            <Route path="account" element={<FinAccount />} />
           </Routes>
         </div>
       </div>
@@ -475,3 +485,4 @@ const App = () => {
 };
 
 export default App;
+
