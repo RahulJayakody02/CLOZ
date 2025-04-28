@@ -17,6 +17,7 @@ const attendanceRoutes = require("./routes/attendance");
 const salaryRoutes = require("./routes/salary");
 const requestRoutes = require("./routes/requests");
 
+
 const PORT = process.env.PORT || 8070;
 
 console.log("MongoDB URL:", process.env.MONGODB_URL); // Add this line to check the MongoDB URL
@@ -89,7 +90,6 @@ const pettyRouter = require("./routes/pettyCashexp.js");
 app.use("/pettycash", pettyRouter);
 
 const incomeRouter = require("./routes/Incomes.js");
-
 app.use("/incomes",incomeRouter);
 
 const balanceSheetRoutes = require("./routes/BalanceSheet.js");
@@ -99,11 +99,15 @@ const plStatementRouter = require("./routes/plStatement");
 app.use("/plstatement", plStatementRouter);
 
 
+
+
 app.use("/api/employees", employeeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/salary", salaryRoutes);
 app.use("/api/requests", requestRoutes);
+
+
 
 const discountRoutes = require('./routes/discount_routes');
 app.use('/api/discounts', discountRoutes);

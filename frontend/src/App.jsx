@@ -359,7 +359,7 @@ const App = () => {
         <nav className="sidebar">
           <h2>Finance</h2>
           <ul>
-            <li><Link to="/FinanceDashboard/dashboard">Dashboard</Link></li>
+            <li><Link to="/FinanceDashboard/">Dashboard</Link></li>
             <li><Link to="/FinanceDashboard/assets">Assets</Link></li>
             <li><Link to="/FinanceDashboard/liabilities">Liabilities</Link></li>
             <li><Link to="/FinanceDashboard/expenses">Expenses</Link></li>
@@ -376,7 +376,7 @@ const App = () => {
           <h1>Finance Dashboard</h1>
 
           <Routes>
-            <Route path="dashboard" element={<FinDash />} />
+            <Route path="" element={<FinDash />} />
             <Route path="assets" element={<Asset />} />
             <Route path="liabilities" element={<Liab />} />
             <Route path="expenses" element={<Exp />} />
